@@ -26,7 +26,7 @@
         .app {
             background: white;
             width: 100%;
-            max-width: 650px;
+            max-width: 700px;
             border-radius: 20px;
             padding: 25px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
@@ -51,10 +51,6 @@
             margin-bottom: 15px;
         }
 
-        textarea:focus {
-            border-color: #4f46e5;
-        }
-
         .buttons {
             display: flex;
             gap: 10px;
@@ -69,7 +65,6 @@
             font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.3s;
         }
 
         .toBinary {
@@ -87,9 +82,7 @@
             padding: 12px;
             border-radius: 10px;
             min-height: 60px;
-            word-wrap: break-word;
             font-size: 0.95rem;
-            color: #111827;
             margin-bottom: 8px;
         }
 
@@ -119,7 +112,7 @@
 <body>
 
     <div class="app">
-        <h1>Binary ↔ Text Converter</h1>
+        <h1>Binary ↔ Text (8 bits)</h1>
 
         <textarea id="input" placeholder="Enter text or binary here..."></textarea>
 
@@ -128,15 +121,11 @@
             <button class="toText" onclick="binaryToText()">Binary → Text</button>
         </div>
 
-        <!-- MAIN RESULT -->
         <div class="output" id="output"></div>
-
-        <!-- ASCII DECIMAL ROW -->
         <div class="ascii" id="ascii"></div>
-
         <div class="error" id="error"></div>
 
-        <footer>Binary - Text - ASCII Converter</footer>
+        <footer>Binary 8 bits - ASCII Converter</footer>
     </div>
 
     <script>
@@ -160,7 +149,8 @@
 
             for (let i = 0; i < input.length; i++) {
                 const dec = input.charCodeAt(i);
-                binaryResult += dec.toString(2) + " ";
+                const bin8 = dec.toString(2).padStart(8, "0"); // ✅ 8 BITS
+                binaryResult += bin8 + " ";
                 asciiResult += dec + " ";
             }
 
@@ -188,8 +178,8 @@
             let asciiResult = "";
 
             for (let bin of binaryArray) {
-                if (!/^[01]+$/.test(bin)) {
-                    error.textContent = "Invalid binary format!";
+                if (!/^[01]{8}$/.test(bin)) { // ✅ OBLIGE 8 BITS
+                    error.textContent = "Each binary block must be exactly 8 bits!";
                     return;
                 }
 
@@ -206,4 +196,3 @@
 </body>
 
 </html>
-
